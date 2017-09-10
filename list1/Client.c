@@ -1,4 +1,4 @@
-#include <stdio.h>	// printf // socket
+#include <stdio.h>	// printf // socket // perror()
 #include <stdlib.h>	// exit()
 #include <string.h> // memset()
 #include <sys/socket.h>	// socket() // pf_inet // sock_stream
@@ -30,9 +30,9 @@ int main(int argc, char *argv[]) {
 
 	char message[] = "Get Date";
 	unsigned int messageLength = strlen(message);
-	int sendReturn = send(socketReturn, message, messageLength, 0);
-	if(sendReturn != messageLength)
-		error("Failed to send whole message (bytes)");
+	// int sendReturn = send(socketReturn, message, messageLength, 0);
+	// if(sendReturn != messageLength)
+	// 	error("Failed to send whole message (bytes)");
 
 	printf("The date is: ");
 
@@ -60,6 +60,7 @@ int main(int argc, char *argv[]) {
 
 void error(char *msg) {
 	printf("%s\n", msg);
+	perror("C error: ");
 	exit(0);
 
 	return;
