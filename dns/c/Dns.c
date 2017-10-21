@@ -1,18 +1,4 @@
-#include <stdio.h>	// printf // socket // perror()
-#include <stdlib.h>	// exit()
-#include <string.h> // memset()
-#include <sys/socket.h>	// socket() // pf_inet // sock_stream
-#include <netinet/in.h>     /* struct sockaddr_in */
-#include <arpa/inet.h>	// IPPROTO_TCP // struct sockaddr
-#include <unistd.h>	// close()
-#include <netdb.h>
-#include <stdbool.h>
-
-#define BUFFSIZE 32
-#define SA struct sockaddr
-#define PORT 53
-
-void error(char *msg);
+#include "Dns.h"
 
 int main(int argc, char *argv[]) {
 
@@ -52,7 +38,7 @@ int main(int argc, char *argv[]) {
 	char *ipAddress = inet_ntoa(hostAddress);
 	printf("%s\n", ipAddress);
 
-	// for(int i = 0; i < 3; i++) {
+	 for(int i = 0; i < 3; i++) {
 
 		int socketReturn = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
 		if(socketReturn < 0)
@@ -71,12 +57,12 @@ int main(int argc, char *argv[]) {
 
 		int ret = connect(socketReturn, (SA *) &serverAddress, sizeof(serverAddress));
 		if(ret < 0)
-			error("Failed to connect");
+			error_socket("Failed to connect", socketReturn);
 
 		unsigned int messageLength = strlen(domain);
 		int sendReturn = send(socketReturn, domain, messageLength, 0);
 		if(sendReturn != messageLength)
-			error("Failed to send");
+			error_socket("Failed to send", socketReturn);
 
 		printf("Received: ");
 
@@ -98,7 +84,16 @@ int main(int argc, char *argv[]) {
 
 		close(socketReturn);
 
-	// }
+	}
+}
+
+void error_socket(char *msg, int socket) {
+	close(socket);
+  printf("%s\n", msg);
+  perror("C error: ");
+  exit(0);
+
+  return;
 }
 
 void error(char *msg) {
