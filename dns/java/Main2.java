@@ -39,9 +39,6 @@ public class Main2 {
 				DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
 				DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
 
-				dataOutputStream.writeUTF("}Rv!");
-				dataOutputStream.flush();
-
 				String answer = dataInputStream.readUTF();
 
 	   //          System.out.println("Answer:"+answer);
