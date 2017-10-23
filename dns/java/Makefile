@@ -2,7 +2,7 @@
 
 compile-and-run:
 	javac *.java
-	java DnsMain www.google.com
+	java Main www.google.com
 
 compile:
 	javac *.java
